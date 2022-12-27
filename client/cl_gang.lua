@@ -53,21 +53,21 @@ RegisterNetEvent('qb-gangmenu:client:OpenMenu', function()
 
     local gangMenu = {
         {
-            title = 'Manage Gang Members',
+            title = 'Gestion des effectifs',
             icon = 'fa-solid fa-list',
-            description = 'Recruit or Fire Gang Members',
+            description = 'Gérer les membres',
             event = 'qb-gangmenu:client:ManageGang'
         },
         {
-            title = 'Recruit Members',
+            title = 'Recruter',
             icon = 'fa-solid fa-hand-holding',
-            description = 'Hire Gang Members',
+            description = 'Recruter une personne',
             event = 'qb-gangmenu:client:HireMembers'
         },
         {
-            title = 'Storage Access',
+            title = 'Accès stockage',
             icon = 'fa-solid fa-box-open',
-            description = 'Open Gang Stash',
+            description = 'Accéder au stockage',
             event = 'qb-gangmenu:client:Stash'
         },
         {
@@ -77,9 +77,9 @@ RegisterNetEvent('qb-gangmenu:client:OpenMenu', function()
             event = 'qb-gangmenu:client:Warbobe'
         },
         {
-            title = 'Money Management',
+            title = 'Gestion des fonds',
             icon = 'fa-solid fa-sack-dollar',
-            description = 'Check your Gang Balance',
+            description = 'Vérifiez votre trésorerie',
             event = 'qb-gangmenu:client:SocietyMenu'
         }
     }
@@ -90,7 +90,7 @@ RegisterNetEvent('qb-gangmenu:client:OpenMenu', function()
 
     lib.registerContext({
         id = 'qb_management_open_gangMenu',
-        title = "Gang Management - " .. string.upper(PlayerGang.label),
+        title = "Gestion - " .. string.upper(PlayerGang.label),
         options = gangMenu
     })
 
@@ -114,14 +114,14 @@ RegisterNetEvent('qb-gangmenu:client:ManageGang', function()
         end
 
         GangMembersMenu[#GangMembersMenu + 1] = {
-            title = "Return",
+            title = "Retour",
             icon = 'fa-solid fa-angle-left',
             event = 'qb-gangmenu:client:OpenMenu'
         }
 
         lib.registerContext({
             id = 'qb_management_open_gangManage',
-            title = "Manage Gang Members - " .. string.upper(PlayerGang.label),
+            title = "Gestion des membres - " .. string.upper(PlayerGang.label),
             options = GangMembersMenu
         })
 
@@ -146,21 +146,21 @@ RegisterNetEvent('qb-gangmenu:lient:ManageMember', function(data)
     end
 
     MemberMenu[#MemberMenu + 1] = {
-        title = "Fire",
+        title = "Licencier",
         icon = 'fa-solid fa-user-large-slash',
         serverEvent = 'qb-gangmenu:server:FireMember',
         args = data.player.empSource
     }
 
     MemberMenu[#MemberMenu + 1] = {
-        title = "Return",
+        title = "Retour",
         icon = 'fa-solid fa-angle-left',
         event = 'qb-gangmenu:client:ManageGang'
     }
 
     lib.registerContext({
         id = 'qb_management_open_gangMember',
-        title = "Manage " .. data.player.name .. " - " .. string.upper(PlayerGang.label),
+        title = "Gérer " .. data.player.name .. " - " .. string.upper(PlayerGang.label),
         options = MemberMenu
     })
 
@@ -175,7 +175,7 @@ RegisterNetEvent('qb-gangmenu:client:HireMembers', function()
             if v and v ~= cache.playerId then
                 HireMembersMenu[#HireMembersMenu + 1] = {
                     title = v.name,
-                    description = "Citizen ID: " .. v.citizenid .. " - ID: " .. v.sourceplayer,
+                    description = "ID: " .. v.citizenid .. " - ID: " .. v.sourceplayer,
                     serverEvent = 'qb-gangmenu:server:HireMember',
                     args = v.sourceplayer
                 }
@@ -183,14 +183,14 @@ RegisterNetEvent('qb-gangmenu:client:HireMembers', function()
         end
 
         HireMembersMenu[#HireMembersMenu + 1] = {
-            title = "Return",
+            title = "Retour",
             icon = 'fa-solid fa-angle-left',
             event = 'qb-gangmenu:client:OpenMenu'
         }
 
         lib.registerContext({
             id = 'qb_management_open_gangHire',
-            title = "Hire Gang Members - " .. string.upper(PlayerGang.label),
+            title = "Recrutement - " .. string.upper(PlayerGang.label),
             options = HireMembersMenu
         })
 
@@ -202,21 +202,21 @@ RegisterNetEvent('qb-gangmenu:client:SocietyMenu', function()
     QBCore.Functions.TriggerCallback('qb-gangmenu:server:GetAccount', function(amount)
         local SocietyMenu = {
             {
-                title = "Deposit",
+                title = "Dépôt",
                 icon = 'fa-solid fa-money-bill-transfer',
-                description = "Deposit Money",
+                description = "Déposer de l'argent",
                 event = 'qb-gangmenu:client:SocietyDeposit',
                 args = comma_value(amount)
             },
             {
-                title = "Withdraw",
+                title = "Retrait",
                 icon = 'fa-solid fa-money-bill-transfer',
-                description = "Withdraw Money",
+                description = "Retier de l'argent",
                 event = 'qb-gangmenu:client:SocietyWithdraw',
                 args = comma_value(amount)
             },
             {
-                title = "Return",
+                title = "Retour",
                 icon = 'fa-solid fa-angle-left',
                 event = 'qb-gangmenu:client:OpenMenu'
             }
@@ -224,7 +224,7 @@ RegisterNetEvent('qb-gangmenu:client:SocietyMenu', function()
 
         lib.registerContext({
             id = 'qb_management_open_gangSociety',
-            title = "Balance: $" .. comma_value(amount) .. " - " .. string.upper(PlayerGang.label),
+            title = "Coffre: $" .. comma_value(amount) .. " - " .. string.upper(PlayerGang.label),
             options = SocietyMenu
         })
 
@@ -233,16 +233,16 @@ RegisterNetEvent('qb-gangmenu:client:SocietyMenu', function()
 end)
 
 RegisterNetEvent('qb-gangmenu:client:SocietyDeposit', function(money)
-    local deposit = lib.inputDialog("Deposit Money", {
+    local deposit = lib.inputDialog("Déposer de l'argent", {
         {
             type = 'number',
-            label = "Available Balance",
+            label = "Argent disponible",
             disabled = true,
             default = money
         },
         {
             type = 'number',
-            label = "Amount"
+            label = "Montant"
         }
     })
 
@@ -253,7 +253,7 @@ RegisterNetEvent('qb-gangmenu:client:SocietyDeposit', function(money)
 
     if not deposit[2] then
         lib.notify({
-            description = 'Amount value is missing!',
+            description = 'La valeur du montant est manquante!',
             type = 'error'
         })
 
@@ -265,7 +265,7 @@ RegisterNetEvent('qb-gangmenu:client:SocietyDeposit', function(money)
 
     if depositAmount <= 0 then
         lib.notify({
-            description = 'Amount need to be higher than zero!',
+            description = 'Le montant doit être supérieur à zéro!',
             type = 'error'
         })
 
@@ -277,16 +277,16 @@ RegisterNetEvent('qb-gangmenu:client:SocietyDeposit', function(money)
 end)
 
 RegisterNetEvent('qb-gangmenu:client:SocietyWithdraw', function(money)
-    local withdraw = lib.inputDialog("Withdraw Money", {
+    local withdraw = lib.inputDialog("Déposer de l'argent", {
         {
             type = 'input',
-            label = "Available Balance",
+            label = "Argent disponible",
             disabled = true,
             default = money
         },
         {
             type = 'input',
-            label = "Amount"
+            label = "Montant"
         }
     })
 
@@ -297,7 +297,7 @@ RegisterNetEvent('qb-gangmenu:client:SocietyWithdraw', function(money)
 
     if not withdraw[2] then
         lib.notify({
-            description = 'Amount value is missing!',
+            description = 'La valeur du montant est manquante!',
             type = 'error'
         })
 
@@ -309,7 +309,7 @@ RegisterNetEvent('qb-gangmenu:client:SocietyWithdraw', function(money)
 
     if withdrawAmount > tonumber(money) then
         lib.notify({
-            description = 'You cant withdraw that amount of money!',
+            description = 'Vous ne pouvez pas retirer cette somme d’argent!',
             type = 'error'
         })
 
@@ -335,7 +335,7 @@ CreateThread(function()
                             name = 'gang_menu',
                             event = 'qb-gangmenu:client:OpenMenu',
                             icon = "fa-solid fa-right-to-bracket",
-                            label = "Gang Menu",
+                            label = "Gestion",
                             canInteract = function()
                                 return gang == PlayerGang.name and PlayerGang.isboss
                             end

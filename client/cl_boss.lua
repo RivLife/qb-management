@@ -43,32 +43,32 @@ RegisterNetEvent('qb-bossmenu:client:OpenMenu', function()
 
     local bossMenu = {
         {
-            title = "Manage Employees",
-            description = "Check your Employees List",
+            title = "Gérer les employés",
+            description = "Vérifiez votre liste d’employés",
             icon = 'fa-solid fa-list',
             event = 'qb-bossmenu:client:employeelist'
         },
         {
-            title = "Hire Employees",
-            description = "Hire Nearby Civilians",
+            title = "Embaucher des employés",
+            description = "Embaucher des civils à proximité",
             icon = 'fa-solid fa-hand-holding',
             event = 'qb-bossmenu:client:HireMenu'
         },
         {
-            title = "Storage Access",
-            description = "Open Storage",
+            title = "Accès au stockage",
+            description = "Accéder au stockage",
             icon = 'fa-solid fa-box-open',
             event = 'qb-bossmenu:client:Stash'
         },
         {
-            title = "Outfits",
-            description = "See Saved Outfits",
+            title = "Tenues",
+            description = "Voir les tenues sauvegardées",
             icon = 'fa-solid fa-shirt',
             event = 'qb-bossmenu:client:Wardrobe'
         },
         {
-            title = "Money Management",
-            description = "Check your Company Balance",
+            title = "Gestion des fonds",
+            description = "Vérifiez les fonds de votre entreprise",
             icon = 'fa-solid fa-sack-dollar',
             event = 'qb-bossmenu:client:SocietyMenu'
         }
@@ -80,7 +80,7 @@ RegisterNetEvent('qb-bossmenu:client:OpenMenu', function()
 
     lib.registerContext({
         id = 'qb_management_open_bossMenu',
-        title = "Boss Menu - " .. string.upper(PlayerJob.label),
+        title = "Gestion - " .. string.upper(PlayerJob.label),
         options = bossMenu
     })
     lib.showContext('qb_management_open_bossMenu')
@@ -103,14 +103,14 @@ RegisterNetEvent('qb-bossmenu:client:employeelist', function()
         end
 
         EmployeesMenu[#EmployeesMenu + 1] = {
-            title = "Return",
+            title = "Retour",
             icon = 'fa-solid fa-angle-left',
             event = 'qb-bossmenu:client:OpenMenu'
         }
 
         lib.registerContext({
             id = 'qb_management_open_bossManage',
-            title = "Manage Employees - " .. string.upper(PlayerJob.label),
+            title = "Gestion employés - " .. string.upper(PlayerJob.label),
             options = EmployeesMenu
         })
 
@@ -135,21 +135,21 @@ RegisterNetEvent('qb-bossmenu:client:ManageEmployee', function(data)
     end
 
     EmployeeMenu[#EmployeeMenu + 1] = {
-        title = "Fire Employee",
+        title = "Licencier un employé",
         icon = 'fa-solid fa-user-large-slash',
         serverEvent = 'qb-bossmenu:server:FireEmployee',
         args = data.player.empSource
     }
 
     EmployeeMenu[#EmployeeMenu + 1] = {
-        title = "Return",
+        title = "Retour",
         icon = 'fa-solid fa-angle-left',
         event = 'qb-bossmenu:client:OpenMenu'
     }
 
     lib.registerContext({
         id = 'qb_management_open_bossMember',
-        title = "Manage " .. data.player.name .. " - " .. string.upper(PlayerJob.label),
+        title = "Gérer " .. data.player.name .. " - " .. string.upper(PlayerJob.label),
         options = EmployeeMenu
     })
 
@@ -172,7 +172,7 @@ RegisterNetEvent('qb-bossmenu:client:HireMenu', function()
             if v and v ~= cache.playerId then
                 HireMenu[#HireMenu + 1] = {
                     title = v.name,
-                    description = "Citizen ID: " .. v.citizenid .. " - ID: " .. v.sourceplayer,
+                    description = "ID: " .. v.citizenid .. " - ID: " .. v.sourceplayer,
                     serverEvent = 'qb-bossmenu:server:HireEmployee',
                     args = v.sourceplayer
                 }
@@ -180,14 +180,14 @@ RegisterNetEvent('qb-bossmenu:client:HireMenu', function()
         end
 
         HireMenu[#HireMenu + 1] = {
-            title = "Return",
+            title = "Retour",
             icon = 'fa-solid fa-angle-left',
             event = 'qb-bossmenu:client:OpenMenu'
         }
 
         lib.registerContext({
             id = 'qb_management_open_bossHire',
-            title = "Hire Employees - " .. string.upper(PlayerJob.label),
+            title = "Embaucher - " .. string.upper(PlayerJob.label),
             options = HireMenu
         })
 
@@ -199,16 +199,16 @@ RegisterNetEvent('qb-bossmenu:client:SocietyMenu', function()
     QBCore.Functions.TriggerCallback('qb-bossmenu:server:GetAccount', function(amount)
         local SocietyMenu = {
             {
-                title = "Deposit",
+                title = "Dépôt",
                 icon = 'fa-solid fa-money-bill-transfer',
-                description = "Deposit Money into account",
+                description = "Déposer des fonds sur le compte",
                 event = 'qb-bossmenu:client:SocetyDeposit',
                 args = comma_value(amount)
             },
             {
-                title = "Withdraw",
+                title = "Retrait",
                 icon = 'fa-solid fa-money-bill-transfer',
-                description = "Withdraw Money from account",
+                description = "Retirer des fonds du compte",
                 event = 'qb-bossmenu:client:SocetyWithDraw',
                 args = comma_value(amount)
             },
@@ -230,16 +230,16 @@ RegisterNetEvent('qb-bossmenu:client:SocietyMenu', function()
 end)
 
 RegisterNetEvent('qb-bossmenu:client:SocetyDeposit', function(money)
-    local deposit = lib.inputDialog('Deposit Money', {
+    local deposit = lib.inputDialog('Déposer des fonds', {
         {
             type = 'input',
-            label = "Available Balance",
+            label = "Balance disponible",
             disabled = true,
             default = money
         },
         {
             type = 'number',
-            label = "Amount"
+            label = "Montant"
         }
     })
 
@@ -250,7 +250,7 @@ RegisterNetEvent('qb-bossmenu:client:SocetyDeposit', function(money)
 
     if not deposit[2] then
         lib.notify({
-            description = 'Amount value is missing!',
+            description = 'La valeur du montant est manquante!',
             type = 'error'
         })
 
@@ -262,7 +262,7 @@ RegisterNetEvent('qb-bossmenu:client:SocetyDeposit', function(money)
 
     if depositAmount <= 0 then
         lib.notify({
-            description = 'Amount needs to be higher than zero!',
+            description = 'Le montant doit être supérieur à zéro!',
             type = 'error'
         })
 
@@ -274,16 +274,16 @@ RegisterNetEvent('qb-bossmenu:client:SocetyDeposit', function(money)
 end)
 
 RegisterNetEvent('qb-bossmenu:client:SocetyWithDraw', function(money)
-    local withdraw = lib.inputDialog("Withdraw Money", {
+    local withdraw = lib.inputDialog("Retirer des fonds", {
         {
             type = 'input',
-            label = "Available Balance",
+            label = "Balance disponible",
             disabled = true,
             default = money
         },
         {
             type = 'number',
-            label = "Amount"
+            label = "Montant"
         }
     })
 
@@ -294,7 +294,7 @@ RegisterNetEvent('qb-bossmenu:client:SocetyWithDraw', function(money)
 
     if not withdraw[2] then
         lib.notify({
-            description = 'Amount value is missing!',
+            description = 'La valeur du montant est manquante!',
             type = 'error'
         })
 
@@ -306,7 +306,7 @@ RegisterNetEvent('qb-bossmenu:client:SocetyWithDraw', function(money)
 
     if withdrawAmount > tonumber(money) then
         lib.notify({
-            description = 'You can\'t withdraw that amount of money!',
+            description = 'Vous ne pouvez pas retirer cette somme d’argent!',
             type = 'error'
         })
 
@@ -332,7 +332,7 @@ CreateThread(function()
                             name = 'boss_menu',
                             event = 'qb-bossmenu:client:OpenMenu',
                             icon = "fa-solid fa-right-to-bracket",
-                            label = "Boss Menu",
+                            label = "Gestion entreprise",
                             canInteract = function()
                                 return job == PlayerJob.name and PlayerJob.isboss
                             end

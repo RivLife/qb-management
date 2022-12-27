@@ -4,9 +4,6 @@ Config = Config or {}
 Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
 
 Config.BossMenus = {
-    ['police'] = {
-        vec3(461.45, -986.2, 30.73),
-    },
     ['ambulance'] = {
         vec3(335.46, -594.52, 43.28),
     },
@@ -25,9 +22,6 @@ Config.BossMenus = {
 }
 
 Config.BossMenuZones = {
-    ['police'] = {
-        { coords = vec3(461.45, -986.2, 30.73), length = 0.35, width = 0.45, heading = 351.0, minZ = 30.58, maxZ = 30.68 },
-    },
     ['ambulance'] = {
         { coords = vec3(335.46, -594.52, 43.28), length = 1.2, width = 0.6, heading = 341.0, minZ = 43.13, maxZ = 43.73 },
     },
